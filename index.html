@@ -1,0 +1,1476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free online image enhancer tool. Fix blurry images, enhance thumbnails, adjust brightness, contrast, sharpen images. No signup required - works in your browser.">
+    <meta name="keywords" content="image enhancer online, fix blurry image, thumbnail enhancer, sharpen image online, brightness contrast adjuster">
+    <meta name="author" content="Arijit Mahata">
+    <meta property="og:title" content="ImageEnhancerOnline - Fix Blurry Images & Thumbnails in One Click">
+    <meta property="og:description" content="Free online image enhancer for creators. Sharpen, adjust brightness, contrast, crop and download enhanced images instantly.">
+    <meta property="og:type" content="website">
+    <title>ImageEnhancerOnline - Free Image Enhancer & Thumbnail Tool</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #10b981;
+            --dark: #1f2937;
+            --gray: #6b7280;
+            --light: #f3f4f6;
+            --white: #ffffff;
+            --shadow: 0 4px 6px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background: var(--light);
+        }
+
+        /* Page Management */
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block !important;
+        }
+
+        /* Navigation */
+        nav {
+            background: var(--white);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+            cursor: pointer;
+            display: inline-block;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            cursor: pointer;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--primary);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: var(--white);
+            padding: 4rem 1rem;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+        }
+
+        .cta-button {
+            background: var(--secondary);
+            color: var(--white);
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        /* Upload Area */
+        .upload-area {
+            background: var(--white);
+            border: 3px dashed var(--primary);
+            border-radius: 12px;
+            padding: 3rem 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 2rem;
+        }
+
+        .upload-area:hover {
+            background: var(--light);
+            border-color: var(--primary-dark);
+        }
+
+        .upload-area.dragover {
+            background: var(--light);
+            border-color: var(--secondary);
+        }
+
+        .upload-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        /* Controls */
+        .controls {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+            display: none;
+        }
+
+        .controls.active {
+            display: block;
+        }
+
+        .control-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .control-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+
+        .control-group input[type="range"] {
+            width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            background: var(--light);
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .control-group input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--primary);
+            cursor: pointer;
+        }
+
+        .control-group input[type="range"]::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--primary);
+            cursor: pointer;
+            border: none;
+        }
+
+        .slider-value {
+            display: inline-block;
+            margin-left: 1rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .input-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+        }
+
+        .control-group input[type="number"] {
+            width: 100%;
+            padding: 0.5rem;
+            border: 2px solid var(--light);
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+
+        .button-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+        }
+
+        .btn-secondary {
+            background: var(--gray);
+            color: var(--white);
+        }
+
+        .btn-secondary:hover {
+            background: var(--dark);
+        }
+
+        .btn-success {
+            background: var(--secondary);
+            color: var(--white);
+        }
+
+        /* Canvas Area */
+        .canvas-container {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+            display: none;
+            text-align: center;
+        }
+
+        .canvas-container.active {
+            display: block;
+        }
+
+        #canvas {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid var(--light);
+            border-radius: 8px;
+        }
+
+        .canvas-tools {
+            margin-top: 1rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        /* SEO Section */
+        .seo-section {
+            background: var(--white);
+            padding: 3rem 2rem;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+        }
+
+        .seo-section h2 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-size: 2rem;
+        }
+
+        .seo-section h3 {
+            color: var(--dark);
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .seo-section p {
+            color: var(--gray);
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        .seo-section ul {
+            margin-left: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .seo-section li {
+            color: var(--gray);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Features Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .feature-card {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        /* About Page Styles */
+        .about-hero {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: var(--white);
+            padding: 3rem 1rem;
+            text-align: center;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+        }
+
+        .about-content {
+            background: var(--white);
+            padding: 3rem 2rem;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+        }
+
+        .founder-section {
+            background: var(--light);
+            padding: 2rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary);
+            margin: 2rem 0;
+        }
+
+        .founder-section h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: var(--white);
+            padding: 2rem 1rem;
+            text-align: center;
+        }
+
+        footer a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 1.75rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .nav-links {
+                width: 100%;
+                margin-top: 1rem;
+                justify-content: center;
+                gap: 1rem;
+            }
+
+            .controls {
+                padding: 1rem;
+            }
+
+            .canvas-container {
+                padding: 1rem;
+            }
+
+            .seo-section {
+                padding: 2rem 1rem;
+            }
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--dark);
+            color: var(--white);
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            box-shadow: var(--shadow-lg);
+            display: none;
+            z-index: 2000;
+        }
+
+        .toast.show {
+            display: block;
+            animation: slideIn 0.3s;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+            }
+            to {
+                transform: translateX(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <span class="logo" onclick="navigateTo('home')">ImageEnhancerOnline</span>
+            <ul class="nav-links">
+                <li><a href="#home" onclick="navigateTo('home'); return false;" data-page="home">Home</a></li>
+                <li><a href="#image-enhancer" onclick="navigateTo('image-enhancer'); return false;" data-page="image-enhancer">Image Enhancer</a></li>
+                <li><a href="#thumbnail-enhancer" onclick="navigateTo('thumbnail-enhancer'); return false;" data-page="thumbnail-enhancer">Thumbnail Enhancer</a></li>
+                <li><a href="#about" onclick="navigateTo('about'); return false;" data-page="about">About</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- HOME PAGE -->
+    <div id="home" class="page active">
+        <!-- Hero Section -->
+        <section class="hero">
+            <h1>Fix Blurry Images & Thumbnails in One Click</h1>
+            <p>Free Online Image Enhancer for Creators</p>
+            <button class="cta-button" onclick="scrollToUpload()">Start Enhancing Now</button>
+        </section>
+
+        <!-- Main Content -->
+        <div class="container">
+            <!-- Upload Area -->
+            <div id="upload" class="upload-area">
+                <div class="upload-icon">📷</div>
+                <h2>Drag & Drop Your Image Here</h2>
+                <p>or click to browse (JPG, PNG, WEBP)</p>
+                <input type="file" id="fileInput" accept="image/jpeg,image/png,image/webp">
+            </div>
+
+            <!-- Controls Panel -->
+            <div class="controls" id="controls">
+                <h2>Enhancement Controls</h2>
+                
+                <!-- Resize -->
+                <div class="control-group">
+                    <label>Resize Image</label>
+                    <div class="input-row">
+                        <div>
+                            <label>Width (px)</label>
+                            <input type="number" id="widthInput" min="1" value="800">
+                        </div>
+                        <div>
+                            <label>Height (px)</label>
+                            <input type="number" id="heightInput" min="1" value="600">
+                        </div>
+                    </div>
+                    <div class="button-group">
+                        <button class="btn btn-primary" onclick="applyResize()">Apply Resize</button>
+                        <button class="btn btn-secondary" onclick="setAspectRatio(1280, 720)">YouTube (1280×720)</button>
+                        <button class="btn btn-secondary" onclick="setAspectRatio(1080, 1080)">Instagram (1:1)</button>
+                        <button class="btn btn-secondary" onclick="setAspectRatio(1080, 1920)">Shorts (9:16)</button>
+                    </div>
+                </div>
+
+                <!-- Brightness -->
+                <div class="control-group">
+                    <label>Brightness <span class="slider-value" id="brightnessValue">0</span></label>
+                    <input type="range" id="brightness" min="-100" max="100" value="0" oninput="updatePreview()">
+                </div>
+
+                <!-- Contrast -->
+                <div class="control-group">
+                    <label>Contrast <span class="slider-value" id="contrastValue">0</span></label>
+                    <input type="range" id="contrast" min="-100" max="100" value="0" oninput="updatePreview()">
+                </div>
+
+                <!-- Filters -->
+                <div class="control-group">
+                    <label>Filters & Effects</label>
+                    <div class="button-group">
+                        <button class="btn btn-primary" onclick="applySharpen()">Sharpen</button>
+                        <button class="btn btn-primary" onclick="applyBlur()">Blur</button>
+                        <button class="btn btn-primary" onclick="applyNoiseReduction()">Noise Reduction</button>
+                        <button class="btn btn-secondary" onclick="toggleCropMode()">Crop Tool</button>
+                        <button class="btn btn-secondary" onclick="resetImage()">Reset All</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Canvas Container -->
+            <div class="canvas-container" id="canvasContainer">
+                <h3>Image Preview</h3>
+                <div class="crop-overlay" id="cropOverlay">
+                    <canvas id="canvas"></canvas>
+                </div>
+                <div class="canvas-tools">
+                    <button class="btn btn-success" onclick="downloadImage('png')">Download PNG</button>
+                    <button class="btn btn-success" onclick="downloadImage('jpeg')">Download JPG</button>
+                    <button class="btn btn-secondary" onclick="toggleBeforeAfter()">Before/After</button>
+                </div>
+            </div>
+
+            <!-- Features Grid -->
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">✨</div>
+                    <h3>Sharpen Images</h3>
+                    <p>Enhance details and make blurry images crystal clear</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎨</div>
+                    <h3>Adjust Brightness</h3>
+                    <p>Perfect lighting with easy-to-use sliders</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">✂️</div>
+                    <h3>Crop & Resize</h3>
+                    <p>Custom sizes or platform-specific presets</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>YouTube Thumbnails</h3>
+                    <p>Optimized presets for content creators</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3>100% Private</h3>
+                    <p>All processing happens in your browser</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💯</div>
+                    <h3>No Watermarks</h3>
+                    <p>Download unlimited high-quality images</p>
+                </div>
+            </div>
+
+            <!-- SEO Content -->
+            <section class="seo-section">
+                <h2>Professional Image Enhancement Made Simple</h2>
+                <p>
+                    ImageEnhancerOnline is a powerful, free online image enhancer designed for content creators, YouTubers, social media managers, and anyone who needs to quickly improve image quality. Whether you're fixing a blurry thumbnail, enhancing product photos, or preparing images for social media, our browser-based tool provides professional-grade enhancements without expensive software.
+                </p>
+                <p>
+                    Our image enhancement features include brightness and contrast adjustment, sharpening filters to fix blurry images, noise reduction for cleaner results, and smart crop tools with presets for YouTube thumbnails (1280×720), Instagram square posts (1:1), and vertical content for Shorts and Reels (9:16). All processing happens directly in your browser using HTML5 Canvas technology, ensuring your images remain private and secure.
+                </p>
+                <p>
+                    Unlike online tools that compress your images or add watermarks, ImageEnhancerOnline delivers full-resolution results with no quality loss. Perfect for creators who need professional results on a budget, students working on projects, small businesses enhancing product photos, or anyone looking to improve their visual content without learning complex software. Start enhancing your images now – no signup, no download, no cost.
+                </p>
+            </section>
+        </div>
+    </div>
+
+    <!-- IMAGE ENHANCER PAGE -->
+    <div id="image-enhancer" class="page">
+        <section class="hero">
+            <h1>Professional Image Enhancer Tool</h1>
+            <p>Enhance any image with powerful editing features</p>
+        </section>
+
+        <div class="container">
+            <!-- Upload Area -->
+            <div class="upload-area" id="uploadArea2">
+                <div class="upload-icon">🖼️</div>
+                <h2>Upload Your Image</h2>
+                <p>Supports JPG, PNG, WEBP formats</p>
+            </div>
+
+            <!-- Controls Panel -->
+            <div class="controls" id="controls2">
+                <h2>Enhancement Controls</h2>
+                
+                <!-- Resize -->
+                <div class="control-group">
+                    <label>Resize Image</label>
+                    <div class="input-row">
+                        <div>
+                            <label>Width (px)</label>
+                            <input type="number" id="widthInput2" min="1" value="800">
+                        </div>
+                        <div>
+                            <label>Height (px)</label>
+                            <input type="number" id="heightInput2" min="1" value="600">
+                        </div>
+                    </div>
+                    <div class="button-group">
+                        <button class="btn btn-primary" onclick="applyResize()">Apply Resize</button>
+                        <button class="btn btn-secondary" onclick="setAspectRatio(1280, 720)">YouTube (1280×720)</button>
+                        <button class="btn btn-secondary" onclick="setAspectRatio(1080, 1080)">Instagram (1:1)</button>
+                        <button class="btn btn-secondary" onclick="setAspectRatio(1080, 1920)">Shorts (9:16)</button>
+                    </div>
+                </div>
+
+                <!-- Brightness -->
+                <div class="control-group">
+                    <label>Brightness <span class="slider-value" id="brightnessValue2">0</span></label>
+                    <input type="range" id="brightness2" min="-100" max="100" value="0" oninput="updatePreview()">
+                </div>
+
+                <!-- Contrast -->
+                <div class="control-group">
+                    <label>Contrast <span class="slider-value" id="contrastValue2">0</span></label>
+                    <input type="range" id="contrast2" min="-100" max="100" value="0" oninput="updatePreview()">
+                </div>
+
+                <!-- Filters -->
+                <div class="control-group">
+                    <label>Filters & Effects</label>
+                    <div class="button-group">
+                        <button class="btn btn-primary" onclick="applySharpen()">Sharpen</button>
+                        <button class="btn btn-primary" onclick="applyBlur()">Blur</button>
+                        <button class="btn btn-primary" onclick="applyNoiseReduction()">Noise Reduction</button>
+                        <button class="btn btn-secondary" onclick="toggleCropMode()">Crop Tool</button>
+                        <button class="btn btn-secondary" onclick="resetImage()">Reset All</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Canvas Container -->
+            <div class="canvas-container" id="canvasContainer2">
+                <h3>Image Preview</h3>
+                <canvas id="canvas2"></canvas>
+                <div class="canvas-tools">
+                    <button class="btn btn-success" onclick="downloadImage('png')">Download PNG</button>
+                    <button class="btn btn-success" onclick="downloadImage('jpeg')">Download JPG</button>
+                    <button class="btn btn-secondary" onclick="toggleBeforeAfter()">Before/After</button>
+                </div>
+            </div>
+            <div class="seo-section">
+                <h2>Complete Image Enhancement Suite</h2>
+                <p>
+                    Our image enhancer provides professional-grade tools to transform your photos. Whether you're working with personal photos, product images, or creative projects, our comprehensive enhancement features give you full control over every aspect of your image quality.
+                </p>
+
+                <h3>Key Features Explained</h3>
+                
+                <h3>Brightness Adjustment</h3>
+                <p>
+                    Control the overall lightness or darkness of your image with precision. Our brightness slider lets you rescue underexposed photos or tone down overexposed areas. Perfect for correcting images taken in poor lighting conditions or creating specific moods in your visual content.
+                </p>
+
+                <h3>Contrast Enhancement</h3>
+                <p>
+                    Make your images pop by adjusting the difference between light and dark areas. Increasing contrast adds depth and makes details more visible, while reducing it creates a softer, more muted appearance. Essential for bringing flat images to life.
+                </p>
+
+                <h3>Sharpen Filter</h3>
+                <p>
+                    Fix blurry images and enhance edge definition with our advanced sharpening algorithm. Using convolution matrix processing, our sharpen filter brings out fine details and makes text more readable. Ideal for product photography, document scanning, and improving slightly out-of-focus photos.
+                </p>
+
+                <h3>Blur Effect</h3>
+                <p>
+                    Apply smooth Gaussian blur for creative effects or to reduce harsh details. Useful for creating soft backgrounds, privacy protection by obscuring sensitive information, or artistic photo manipulation. Control the intensity to achieve your desired look.
+                </p>
+
+                <h3>Noise Reduction</h3>
+                <p>
+                    Remove grain and digital noise from images taken in low light or with high ISO settings. Our noise reduction algorithm smooths out unwanted texture while preserving important details, resulting in cleaner, more professional-looking images.
+                </p>
+
+                <h3>Precision Crop Tool</h3>
+                <p>
+                    Select exactly the portion of your image you want to keep with our intuitive mouse-based crop tool. Perfect for removing unwanted edges, focusing on specific subjects, or preparing images for specific platform requirements. Simply drag to select your desired area.
+                </p>
+
+                <h3>Smart Resize Options</h3>
+                <p>
+                    Resize images to exact dimensions or use our platform-specific presets. Whether you need custom dimensions for print, web optimization, or social media specifications, our resize tool maintains image quality while adjusting to your target size.
+                </p>
+
+                <h3>Why Choose Our Image Enhancer?</h3>
+                <p>
+                    Unlike desktop software that requires installation and updates, or cloud services that upload your private images to servers, ImageEnhancerOnline processes everything locally in your browser. This means faster processing, complete privacy, and the ability to work offline. No file size limits, no monthly subscriptions, no watermarks on your enhanced images. Just pure, powerful image enhancement whenever you need it.
+                </p>
+            </section>
+        </div>
+    </div>
+
+    <!-- THUMBNAIL ENHANCER PAGE -->
+    <div id="thumbnail-enhancer" class="page">
+        <section class="hero">
+            <h1>YouTube Thumbnail Enhancer</h1>
+            <p>Create Eye-Catching Thumbnails That Get Clicks</p>
+        </section>
+
+        <div class="container">
+            <!-- Upload Area -->
+            <div class="upload-area" id="uploadArea3">
+                <div class="upload-icon">🎬</div>
+                <h2>Upload Your Thumbnail</h2>
+                <p>Optimize for YouTube, Instagram, and TikTok</p>
+            </div>
+
+            <!-- Controls Panel -->
+            <div class="controls" id="controls3">
+                <h2>Thumbnail Enhancement Controls</h2>
+                
+                <!-- Resize -->
+                <div class="control-group">
+                    <label>Resize for Platform</label>
+                    <div class="input-row">
+                        <div>
+                            <label>Width (px)</label>
+                            <input type="number" id="widthInput3" min="1" value="1280">
+                        </div>
+                        <div>
+                            <label>Height (px)</label>
+                            <input type="number" id="heightInput3" min="1" value="720">
+                        </div>
+                    </div>
+                    <div class="button-group">
+                        <button class="btn btn-primary" onclick="applyResize()">Apply Resize</button>
+                        <button class="btn btn-secondary" onclick="setAspectRatio(1280, 720)">YouTube (1280×720)</button>
+                        <button class="btn btn-secondary" onclick="setAspectRatio(1080, 1080)">Instagram (1:1)</button>
+                        <button class="btn btn-secondary" onclick="setAspectRatio(1080, 1920)">Shorts (9:16)</button>
+                    </div>
+                </div>
+
+                <!-- Brightness -->
+                <div class="control-group">
+                    <label>Brightness <span class="slider-value" id="brightnessValue3">0</span></label>
+                    <input type="range" id="brightness3" min="-100" max="100" value="0" oninput="updatePreview()">
+                </div>
+
+                <!-- Contrast -->
+                <div class="control-group">
+                    <label>Contrast <span class="slider-value" id="contrastValue3">0</span></label>
+                    <input type="range" id="contrast3" min="-100" max="100" value="0" oninput="updatePreview()">
+                </div>
+
+                <!-- Filters -->
+                <div class="control-group">
+                    <label>Quick Enhancement Tools</label>
+                    <div class="button-group">
+                        <button class="btn btn-primary" onclick="applySharpen()">Sharpen</button>
+                        <button class="btn btn-primary" onclick="applyBlur()">Blur</button>
+                        <button class="btn btn-primary" onclick="applyNoiseReduction()">Noise Reduction</button>
+                        <button class="btn btn-secondary" onclick="toggleCropMode()">Crop Tool</button>
+                        <button class="btn btn-secondary" onclick="resetImage()">Reset All</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Canvas Container -->
+            <div class="canvas-container" id="canvasContainer3">
+                <h3>Thumbnail Preview</h3>
+                <canvas id="canvas3"></canvas>
+                <div class="canvas-tools">
+                    <button class="btn btn-success" onclick="downloadImage('png')">Download PNG</button>
+                    <button class="btn btn-success" onclick="downloadImage('jpeg')">Download JPG</button>
+                    <button class="btn btn-secondary" onclick="toggleBeforeAfter()">Before/After</button>
+                </div>
+            </div>
+
+            <!-- Features for Creators -->
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📺</div>
+                    <h3>YouTube Optimized</h3>
+                    <p>Perfect 1280×720 preset for YouTube thumbnails</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3>Social Media Ready</h3>
+                    <p>Instagram squares and vertical formats</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Quick Enhancement</h3>
+                    <p>Sharpen and boost colors in seconds</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">👁️</div>
+                    <h3>Clarity Focus</h3>
+                    <p>Make text and faces crystal clear</p>
+                </div>
+            </div>
+
+            <div class="seo-section">
+                <h2>Create Professional Thumbnails That Drive Clicks</h2>
+                <p>
+                    Your thumbnail is the first thing viewers see, and it can make or break your video's success. A blurry, dark, or poorly composed thumbnail tells viewers your content isn't professional. Our thumbnail enhancer is specifically designed for content creators who need to make their thumbnails stand out in crowded feeds and search results.
+                </p>
+
+                <h3>Why Thumbnail Quality Matters</h3>
+                <p>
+                    Studies show that thumbnails account for up to 90% of a viewer's decision to click on a video. A sharp, vibrant thumbnail with clear text and well-lit faces can dramatically increase your click-through rate. Even if you shot your thumbnail on a smartphone or in less-than-ideal lighting, our enhancement tools can transform it into professional-looking content.
+                </p>
+
+                <h3>YouTube Thumbnail Best Practices</h3>
+                <p>
+                    YouTube recommends thumbnails at 1280×720 pixels with a 16:9 aspect ratio. Our preset automatically resizes your image to these exact specifications while maintaining quality. The platform also suggests keeping file sizes under 2MB, using high-contrast colors, and ensuring text is readable even at small sizes.
+                </p>
+
+                <h3>Sharpen for Maximum Impact</h3>
+                <p>
+                    Blurry thumbnails signal low-quality content to potential viewers. Our sharpen filter enhances edge definition, making faces more recognizable and text more readable. This is especially important for thumbnails that will be viewed on mobile devices where screen size is limited.
+                </p>
+
+                <h3>Brightness and Contrast for Visibility</h3>
+                <p>
+                    Thumbnails compete with dozens of other videos in search results and suggested feeds. Increasing brightness ensures your thumbnail remains visible even in bright environments, while boosting contrast makes your subject pop off the background. These adjustments help your content stand out in the visual noise of social media platforms.
+                </p>
+
+                <h3>Platform-Specific Optimization</h3>
+                <p>
+                    Different platforms require different dimensions. YouTube uses 16:9 (1280×720), Instagram feed posts work best at 1:1 (1080×1080), and Shorts, Reels, and TikTok need vertical 9:16 format (1080×1920). Our preset buttons instantly resize to the correct dimensions for each platform, saving you time and ensuring compliance with platform requirements.
+                </p>
+
+                <h3>Quick Workflow for Busy Creators</h3>
+                <p>
+                    As a content creator, you don't have time to learn complex photo editing software. Upload your thumbnail, click the YouTube preset, adjust brightness if needed, apply sharpen, and download. The entire process takes less than 30 seconds. No tutorials, no subscriptions, no complicated interfaces – just fast results that help you publish content faster.
+                </p>
+
+                <h3>Mobile-Friendly Creation</h3>
+                <p>
+                    Many creators shoot and edit entirely on mobile devices. Our responsive interface works perfectly on smartphones and tablets, letting you enhance thumbnails wherever you are. Create professional thumbnails on your phone while traveling, between shoots, or anywhere you have a few minutes to spare.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ABOUT PAGE -->
+    <div id="about" class="page">
+        <div class="container">
+            <div class="about-hero">
+                <h1>About ImageEnhancerOnline</h1>
+                <p>Making powerful tools accessible to everyone</p>
+            </div>
+
+            <div class="about-content">
+                <h2>Our Mission</h2>
+                <p>
+                    ImageEnhancerOnline was created to help creators, students, and small businesses fix blurry images quickly without expensive software. The goal is simple: fast, free, and useful tools that work directly in your browser.
+                </p>
+
+                <p>
+                    We believe that everyone deserves access to professional-grade image enhancement tools, regardless of their budget or technical expertise. Whether you're a YouTuber creating thumbnails, a student working on a presentation, a small business owner improving product photos, or someone who just wants to fix a cherished memory – these tools are built for you.
+                </p>
+
+                <div class="founder-section">
+                    <h3>Founder Vision – Arijit Mahata</h3>
+                    <p>
+                        Arijit Mahata believes powerful tools should be accessible to everyone, not locked behind paid software. His vision is to build simple, problem-solving web tools that help people grow, create, and earn online — starting from zero resources and scaling through execution, not hype.
+                    </p>
+                    <p>
+                        The philosophy behind ImageEnhancerOnline is straightforward: identify real problems people face, build practical solutions that actually work, and make them freely available without artificial limitations. No freemium tricks, no "upgrade to pro" upsells, no feature locks – just honest tools that solve real problems.
+                    </p>
+                </div>
+
+                <h2>Why We Built This</h2>
+                <p>
+                    Professional image editing software like Photoshop costs hundreds of dollars and requires extensive training to use effectively. Online alternatives often upload your images to remote servers, raising privacy concerns, or limit file sizes and add watermarks unless you pay for premium subscriptions.
+                </p>
+
+                <p>
+                    We saw a need for something different: a tool that's genuinely free, respects your privacy by processing images locally in your browser, has no file size limits, adds no watermarks, and requires no technical knowledge to use. ImageEnhancerOnline is that solution.
+                </p>
+
+                <h2>Our Commitment</h2>
+                <p>
+                    We're committed to keeping ImageEnhancerOnline free, private, and useful. All image processing happens in your browser using HTML5 Canvas technology, which means your images never leave your device. No servers, no databases, no tracking of your content. We can't see your images because we never receive them.
+                </p>
+
+                <p>
+                    As we continue to develop and improve these tools, our core principles remain unchanged: accessibility, privacy, simplicity, and genuine value. Every feature we add must solve a real problem without compromising these values.
+                </p>
+
+                <h2>For Creators, By Creators</h2>
+                <p>
+                    This tool was built by someone who understands the creator economy. Content creation is already challenging enough – managing uploads, optimizing for algorithms, engaging with audiences. You shouldn't also need to become a professional photo editor or pay monthly subscriptions for basic image enhancements.
+                </p>
+
+                <p>
+                    Whether you're just starting your creator journey or you're an established professional looking for quick enhancement tools, ImageEnhancerOnline is designed to save you time and money while delivering quality results. Focus on creating great content; let us handle the image enhancement.
+                </p>
+
+                <h2>Looking Forward</h2>
+                <p>
+                    ImageEnhancerOnline is just the beginning. Our vision includes expanding this platform with additional tools that solve practical problems for creators and professionals. Every tool will maintain the same principles: free to use, privacy-focused, genuinely useful, and built with real user needs in mind.
+                </p>
+
+                <p>
+                    We welcome your feedback and suggestions. If there's a feature you'd like to see or a problem you're facing that we could help solve, we're listening. Together, we can build tools that empower everyone to create better content, regardless of their starting resources.
+                </p>
+            </div>
+
+            <div class="seo-section">
+                <h2>Contact & Feedback</h2>
+                <p>
+                    Have suggestions for improvements? Found a bug? Want to see additional features? We value user feedback and continuously work to make ImageEnhancerOnline better. Your input helps us prioritize development and ensures we're building tools that actually serve your needs.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 ImageEnhancerOnline | Created by Arijit Mahata</p>
+        <p>Free Image Enhancement Tools | No Signup Required | 100% Private</p>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast"></div>
+
+    <script>
+        // Global variables
+        let canvas = document.getElementById('canvas');
+        let ctx = canvas.getContext('2d');
+        let originalImage = null;
+        let currentImage = null;
+        let isShowingOriginal = false;
+        let cropMode = false;
+        let cropStart = null;
+        let cropEnd = null;
+        let currentPage = 'home';
+
+        // Get active canvas and context based on current page
+        function getActiveCanvas() {
+            if (currentPage === 'home') {
+                canvas = document.getElementById('canvas');
+            } else if (currentPage === 'image-enhancer') {
+                canvas = document.getElementById('canvas2');
+            } else if (currentPage === 'thumbnail-enhancer') {
+                canvas = document.getElementById('canvas3');
+            }
+            ctx = canvas.getContext('2d');
+            return { canvas, ctx };
+        }
+
+        // Get active controls based on current page
+        function getActiveControls() {
+            const suffix = currentPage === 'home' ? '' : (currentPage === 'image-enhancer' ? '2' : '3');
+            return {
+                brightness: document.getElementById('brightness' + suffix),
+                contrast: document.getElementById('contrast' + suffix),
+                brightnessValue: document.getElementById('brightnessValue' + suffix),
+                contrastValue: document.getElementById('contrastValue' + suffix),
+                widthInput: document.getElementById('widthInput' + suffix),
+                heightInput: document.getElementById('heightInput' + suffix),
+                controls: document.getElementById('controls' + suffix),
+                canvasContainer: document.getElementById('canvasContainer' + suffix)
+            };
+        }
+
+        // Page Navigation
+        function navigateTo(pageId) {
+            // Prevent default action
+            event.preventDefault();
+            
+            currentPage = pageId;
+            
+            // Hide all pages
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => {
+                page.classList.remove('active');
+                page.style.display = 'none';
+            });
+
+            // Show selected page
+            const selectedPage = document.getElementById(pageId);
+            if (selectedPage) {
+                selectedPage.classList.add('active');
+                selectedPage.style.display = 'block';
+            }
+
+            // Update nav active state
+            const navLinks = document.querySelectorAll('.nav-links a');
+            navLinks.forEach(link => link.classList.remove('active'));
+            const activeLink = document.querySelector(`[data-page="${pageId}"]`);
+            if (activeLink) activeLink.classList.add('active');
+
+            // Update canvas reference
+            getActiveCanvas();
+
+            // Scroll to top
+            window.scrollTo(0, 0);
+            
+            console.log('Navigated to:', pageId);
+        }
+
+        // Scroll to upload section
+        function scrollToUpload() {
+            document.getElementById('upload').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Setup upload areas for all pages
+        function setupUploadAreas() {
+            const uploadAreas = [
+                { element: document.querySelector('.upload-area'), page: 'home' },
+                { element: document.getElementById('uploadArea2'), page: 'image-enhancer' },
+                { element: document.getElementById('uploadArea3'), page: 'thumbnail-enhancer' }
+            ];
+
+            uploadAreas.forEach(({ element, page }) => {
+                if (!element) return;
+
+                element.addEventListener('click', () => fileInput.click());
+
+                element.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    element.classList.add('dragover');
+                });
+
+                element.addEventListener('dragleave', () => {
+                    element.classList.remove('dragover');
+                });
+
+                element.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    element.classList.remove('dragover');
+                    if (e.dataTransfer.files.length > 0) {
+                        loadImage(e.dataTransfer.files[0]);
+                    }
+                });
+            });
+        }
+
+        // File upload handling
+        const fileInput = document.getElementById('fileInput');
+
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                loadImage(e.target.files[0]);
+            }
+        });
+
+        // Load image
+        function loadImage(file) {
+            if (!file.type.match('image.*')) {
+                showToast('Please upload a valid image file');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const img = new Image();
+                img.onload = () => {
+                    originalImage = img;
+                    
+                    // Get active canvas and controls
+                    getActiveCanvas();
+                    const controls = getActiveControls();
+                    
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+                    ctx.drawImage(img, 0, 0);
+                    currentImage = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                    
+                    controls.widthInput.value = img.width;
+                    controls.heightInput.value = img.height;
+                    
+                    controls.controls.classList.add('active');
+                    controls.canvasContainer.classList.add('active');
+                    
+                    showToast('Image loaded successfully!');
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // Update preview with brightness and contrast
+        function updatePreview() {
+            if (!originalImage) return;
+
+            getActiveCanvas();
+            const controls = getActiveControls();
+
+            const brightness = parseInt(controls.brightness.value);
+            const contrast = parseInt(controls.contrast.value);
+
+            controls.brightnessValue.textContent = brightness;
+            controls.contrastValue.textContent = contrast;
+
+            ctx.drawImage(originalImage, 0, 0);
+            let imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            
+            // Apply brightness and contrast
+            imageData = adjustBrightnessContrast(imageData, brightness, contrast);
+            
+            ctx.putImageData(imageData, 0, 0);
+            currentImage = imageData;
+        }
+
+        // Adjust brightness and contrast
+        function adjustBrightnessContrast(imageData, brightness, contrast) {
+            const data = imageData.data;
+            const factor = (259 * (contrast + 255)) / (255 * (259 - contrast));
+
+            for (let i = 0; i < data.length; i += 4) {
+                // Apply contrast
+                data[i] = factor * (data[i] - 128) + 128;
+                data[i + 1] = factor * (data[i + 1] - 128) + 128;
+                data[i + 2] = factor * (data[i + 2] - 128) + 128;
+
+                // Apply brightness
+                data[i] = Math.min(255, Math.max(0, data[i] + brightness));
+                data[i + 1] = Math.min(255, Math.max(0, data[i + 1] + brightness));
+                data[i + 2] = Math.min(255, Math.max(0, data[i + 2] + brightness));
+            }
+
+            return imageData;
+        }
+
+        // Apply sharpen filter
+        function applySharpen() {
+            if (!currentImage) return;
+
+            getActiveCanvas();
+            const kernel = [
+                0, -1, 0,
+                -1, 5, -1,
+                0, -1, 0
+            ];
+
+            const sharpened = convolve(currentImage, kernel);
+            ctx.putImageData(sharpened, 0, 0);
+            currentImage = sharpened;
+            showToast('Sharpen filter applied');
+        }
+
+        // Apply blur filter
+        function applyBlur() {
+            if (!currentImage) return;
+
+            getActiveCanvas();
+            const kernel = [
+                1/9, 1/9, 1/9,
+                1/9, 1/9, 1/9,
+                1/9, 1/9, 1/9
+            ];
+
+            const blurred = convolve(currentImage, kernel);
+            ctx.putImageData(blurred, 0, 0);
+            currentImage = blurred;
+            showToast('Blur filter applied');
+        }
+
+        // Apply noise reduction
+        function applyNoiseReduction() {
+            if (!currentImage) return;
+
+            getActiveCanvas();
+            const kernel = [
+                1/16, 2/16, 1/16,
+                2/16, 4/16, 2/16,
+                1/16, 2/16, 1/16
+            ];
+
+            const filtered = convolve(currentImage, kernel);
+            ctx.putImageData(filtered, 0, 0);
+            currentImage = filtered;
+            showToast('Noise reduction applied');
+        }
+
+        // Convolution function for image filters
+        function convolve(imageData, kernel) {
+            const src = imageData.data;
+            const sw = imageData.width;
+            const sh = imageData.height;
+            const w = sw;
+            const h = sh;
+            const output = ctx.createImageData(w, h);
+            const dst = output.data;
+
+            for (let y = 0; y < h; y++) {
+                for (let x = 0; x < w; x++) {
+                    let r = 0, g = 0, b = 0;
+                    
+                    for (let ky = -1; ky <= 1; ky++) {
+                        for (let kx = -1; kx <= 1; kx++) {
+                            const px = Math.min(w - 1, Math.max(0, x + kx));
+                            const py = Math.min(h - 1, Math.max(0, y + ky));
+                            const idx = (py * w + px) * 4;
+                            const kidx = (ky + 1) * 3 + (kx + 1);
+                            
+                            r += src[idx] * kernel[kidx];
+                            g += src[idx + 1] * kernel[kidx];
+                            b += src[idx + 2] * kernel[kidx];
+                        }
+                    }
+                    
+                    const dstIdx = (y * w + x) * 4;
+                    dst[dstIdx] = Math.min(255, Math.max(0, r));
+                    dst[dstIdx + 1] = Math.min(255, Math.max(0, g));
+                    dst[dstIdx + 2] = Math.min(255, Math.max(0, b));
+                    dst[dstIdx + 3] = src[dstIdx + 3];
+                }
+            }
+
+            return output;
+        }
+
+        // Resize functions
+        function setAspectRatio(w, h) {
+            const controls = getActiveControls();
+            controls.widthInput.value = w;
+            controls.heightInput.value = h;
+        }
+
+        function applyResize() {
+            if (!originalImage) return;
+
+            getActiveCanvas();
+            const controls = getActiveControls();
+
+            const newWidth = parseInt(controls.widthInput.value);
+            const newHeight = parseInt(controls.heightInput.value);
+
+            canvas.width = newWidth;
+            canvas.height = newHeight;
+            ctx.drawImage(originalImage, 0, 0, newWidth, newHeight);
+            currentImage = ctx.getImageData(0, 0, newWidth, newHeight);
+            
+            updatePreview();
+            showToast(`Resized to ${newWidth}×${newHeight}`);
+        }
+
+        // Crop mode
+        function toggleCropMode() {
+            getActiveCanvas();
+            cropMode = !cropMode;
+            if (cropMode) {
+                canvas.style.cursor = 'crosshair';
+                showToast('Crop mode enabled - drag to select area');
+            } else {
+                canvas.style.cursor = 'default';
+                showToast('Crop mode disabled');
+            }
+        }
+
+        // Setup canvas event listeners
+        function setupCanvasListeners() {
+            const canvases = [
+                document.getElementById('canvas'),
+                document.getElementById('canvas2'),
+                document.getElementById('canvas3')
+            ];
+
+            canvases.forEach(cnv => {
+                if (!cnv) return;
+
+                cnv.addEventListener('mousedown', (e) => {
+                    if (!cropMode) return;
+                    const rect = cnv.getBoundingClientRect();
+                    const scaleX = cnv.width / rect.width;
+                    const scaleY = cnv.height / rect.height;
+                    cropStart = {
+                        x: (e.clientX - rect.left) * scaleX,
+                        y: (e.clientY - rect.top) * scaleY
+                    };
+                });
+
+                cnv.addEventListener('mousemove', (e) => {
+                    if (!cropMode || !cropStart) return;
+                    const rect = cnv.getBoundingClientRect();
+                    const scaleX = cnv.width / rect.width;
+                    const scaleY = cnv.height / rect.height;
+                    cropEnd = {
+                        x: (e.clientX - rect.left) * scaleX,
+                        y: (e.clientY - rect.top) * scaleY
+                    };
+                    drawCropRect();
+                });
+
+                cnv.addEventListener('mouseup', () => {
+                    if (!cropMode || !cropStart || !cropEnd) return;
+                    applyCrop();
+                    cropStart = null;
+                    cropEnd = null;
+                });
+            });
+        }
+
+        function drawCropRect() {
+            if (!cropStart || !cropEnd) return;
+            
+            getActiveCanvas();
+            ctx.putImageData(currentImage, 0, 0);
+            ctx.strokeStyle = '#10b981';
+            ctx.lineWidth = 2;
+            ctx.setLineDash([5, 5]);
+            ctx.strokeRect(
+                cropStart.x,
+                cropStart.y,
+                cropEnd.x - cropStart.x,
+                cropEnd.y - cropStart.y
+            );
+            ctx.setLineDash([]);
+        }
+
+        function applyCrop() {
+            getActiveCanvas();
+            
+            const x = Math.min(cropStart.x, cropEnd.x);
+            const y = Math.min(cropStart.y, cropEnd.y);
+            const w = Math.abs(cropEnd.x - cropStart.x);
+            const h = Math.abs(cropEnd.y - cropStart.y);
+
+            if (w < 10 || h < 10) {
+                showToast('Crop area too small');
+                return;
+            }
+
+            const croppedData = ctx.getImageData(x, y, w, h);
+            canvas.width = w;
+            canvas.height = h;
+            ctx.putImageData(croppedData, 0, 0);
+            currentImage = croppedData;
+            
+            cropMode = false;
+            canvas.style.cursor = 'default';
+            showToast('Image cropped successfully');
+        }
+
+        // Toggle before/after
+        function toggleBeforeAfter() {
+            if (!originalImage || !currentImage) return;
+
+            getActiveCanvas();
+
+            if (isShowingOriginal) {
+                ctx.putImageData(currentImage, 0, 0);
+                showToast('Showing enhanced version');
+            } else {
+                ctx.drawImage(originalImage, 0, 0, canvas.width, canvas.height);
+                showToast('Showing original version');
+            }
+            isShowingOriginal = !isShowingOriginal;
+        }
+
+        // Reset image
+        function resetImage() {
+            if (!originalImage) return;
+            
+            getActiveCanvas();
+            const controls = getActiveControls();
+            
+            canvas.width = originalImage.width;
+            canvas.height = originalImage.height;
+            ctx.drawImage(originalImage, 0, 0);
+            currentImage = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            
+            controls.brightness.value = 0;
+            controls.contrast.value = 0;
+            controls.brightnessValue.textContent = 0;
+            controls.contrastValue.textContent = 0;
+            controls.widthInput.value = originalImage.width;
+            controls.heightInput.value = originalImage.height;
+            
+            showToast('Image reset to original');
+        }
+
+        // Download image
+        function downloadImage(format) {
+            getActiveCanvas();
+            if (!canvas) return;
+
+            const mimeType = format === 'png' ? 'image/png' : 'image/jpeg';
+            const dataURL = canvas.toDataURL(mimeType, 0.95);
+            const link = document.createElement('a');
+            link.download = `enhanced-image.${format}`;
+            link.href = dataURL;
+            link.click();
+            
+            showToast(`Image downloaded as ${format.toUpperCase()}`);
+        }
+
+        // Toast notification
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Set active nav link on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            // Show home page by default
+            navigateTo('home');
+            
+            // Setup all upload areas
+            setupUploadAreas();
+            
+            // Setup canvas listeners
+            setupCanvasListeners();
+            
+            console.log('App initialized');
+        });
+    </script>
+</body>
+</html>
