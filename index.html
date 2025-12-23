@@ -857,6 +857,72 @@
                 </div>
             </div>
 
+            <!-- Features for Creators -->
+            <div class="seo-section">
+                <h2>Create Professional Thumbnails That Drive Clicks</h2>
+                <p>
+                    Your thumbnail is the first thing viewers see, and it can make or break your video's success. A blurry, dark, or poorly composed thumbnail tells viewers your content isn't professional. Our thumbnail enhancer is specifically designed for content creators who need to make their thumbnails stand out in crowded feeds and search results.
+                </p>
+
+                <h3>Why Thumbnail Quality Matters</h3>
+                <p>
+                    Studies show that thumbnails account for up to 90% of a viewer's decision to click on a video. A sharp, vibrant thumbnail with clear text and well-lit faces can dramatically increase your click-through rate. Even if you shot your thumbnail on a smartphone or in less-than-ideal lighting, our enhancement tools can transform it into professional-looking content.
+                </p>
+
+                <h3>YouTube Thumbnail Best Practices</h3>
+                <p>
+                    YouTube recommends thumbnails at 1280×720 pixels with a 16:9 aspect ratio. Our preset automatically resizes your image to these exact specifications while maintaining quality. The platform also suggests keeping file sizes under 2MB, using high-contrast colors, and ensuring text is readable even at small sizes.
+                </p>
+
+                <h3>Sharpen for Maximum Impact</h3>
+                <p>
+                    Blurry thumbnails signal low-quality content to potential viewers. Our sharpen filter enhances edge definition, making faces more recognizable and text more readable. This is especially important for thumbnails that will be viewed on mobile devices where screen size is limited.
+                </p>
+
+                <h3>Brightness and Contrast for Visibility</h3>
+                <p>
+                    Thumbnails compete with dozens of other videos in search results and suggested feeds. Increasing brightness ensures your thumbnail remains visible even in bright environments, while boosting contrast makes your subject pop off the background. These adjustments help your content stand out in the visual noise of social media platforms.
+                </p>
+
+                <h3>Platform-Specific Optimization</h3>
+                <p>
+                    Different platforms require different dimensions. YouTube uses 16:9 (1280×720), Instagram feed posts work best at 1:1 (1080×1080), and Shorts, Reels, and TikTok need vertical 9:16 format (1080×1920). Our preset buttons instantly resize to the correct dimensions for each platform, saving you time and ensuring compliance with platform requirements.
+                </p>
+
+                <h3>Quick Workflow for Busy Creators</h3>
+                <p>
+                    As a content creator, you don't have time to learn complex photo editing software. Upload your thumbnail, click the YouTube preset, adjust brightness if needed, apply sharpen, and download. The entire process takes less than 30 seconds. No tutorials, no subscriptions, no complicated interfaces – just fast results that help you publish content faster.
+                </p>
+
+                <h3>Mobile-Friendly Creation</h3>
+                <p>
+                    Many creators shoot and edit entirely on mobile devices. Our responsive interface works perfectly on smartphones and tablets, letting you enhance thumbnails wherever you are. Create professional thumbnails on your phone while traveling, between shoots, or anywhere you have a few minutes to spare.
+                </p>
+            </div>
+        </div>
+    </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📺</div>
+                    <h3>YouTube Optimized</h3>
+                    <p>Perfect 1280×720 preset for YouTube thumbnails</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3>Social Media Ready</h3>
+                    <p>Instagram squares and vertical formats</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Quick Enhancement</h3>
+                    <p>Sharpen and boost colors in seconds</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">👁️</div>
+                    <h3>Clarity Focus</h3>
+                    <p>Make text and faces crystal clear</p>
+                </div>
+            </div>
+
             <div class="seo-section">
                 <h2>Create Professional Thumbnails That Drive Clicks</h2>
                 <p>
@@ -985,6 +1051,86 @@
     <div class="toast" id="toast"></div>
 
     <script>
+        // Sound Effects
+        const sounds = {
+            click: null,
+            upload: null,
+            download: null,
+            enhance: null
+        };
+
+        // Create audio context and sounds
+        function initSounds() {
+            const AudioContext = window.AudioContext || window.webkitAudioContext;
+            const audioContext = new AudioContext();
+
+            // Click sound
+            sounds.click = () => {
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                oscillator.frequency.value = 800;
+                oscillator.type = 'sine';
+                gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+                oscillator.start(audioContext.currentTime);
+                oscillator.stop(audioContext.currentTime + 0.1);
+            };
+
+            // Upload sound
+            sounds.upload = () => {
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                oscillator.frequency.value = 600;
+                oscillator.type = 'triangle';
+                gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.2);
+                oscillator.start(audioContext.currentTime);
+                oscillator.stop(audioContext.currentTime + 0.2);
+            };
+
+            // Download sound
+            sounds.download = () => {
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                oscillator.frequency.value = 1000;
+                oscillator.type = 'square';
+                gainNode.gain.setValueAtTime(0.15, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.15);
+                oscillator.start(audioContext.currentTime);
+                oscillator.stop(audioContext.currentTime + 0.15);
+            };
+
+            // Enhancement sound
+            sounds.enhance = () => {
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                oscillator.frequency.value = 440;
+                oscillator.type = 'sawtooth';
+                gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+                oscillator.start(audioContext.currentTime);
+                oscillator.stop(audioContext.currentTime + 0.3);
+            };
+        }
+
+        function playSound(soundName) {
+            try {
+                if (sounds[soundName]) {
+                    sounds[soundName]();
+                }
+            } catch (e) {
+                console.log('Sound playback not available');
+            }
+        }
+
         // Global variables
         let canvas = document.getElementById('canvas');
         let ctx = canvas.getContext('2d');
@@ -1027,7 +1173,9 @@
         // Page Navigation
         function navigateTo(pageId) {
             // Prevent default action
-            event.preventDefault();
+            if (event) event.preventDefault();
+            
+            playSound('click');
             
             currentPage = pageId;
             
@@ -1113,6 +1261,8 @@
                 return;
             }
 
+            playSound('upload');
+
             const reader = new FileReader();
             reader.onload = (e) => {
                 const img = new Image();
@@ -1188,6 +1338,7 @@
         function applySharpen() {
             if (!currentImage) return;
 
+            playSound('enhance');
             getActiveCanvas();
             const kernel = [
                 0, -1, 0,
@@ -1205,6 +1356,7 @@
         function applyBlur() {
             if (!currentImage) return;
 
+            playSound('enhance');
             getActiveCanvas();
             const kernel = [
                 1/9, 1/9, 1/9,
@@ -1222,6 +1374,7 @@
         function applyNoiseReduction() {
             if (!currentImage) return;
 
+            playSound('enhance');
             getActiveCanvas();
             const kernel = [
                 1/16, 2/16, 1/16,
@@ -1275,6 +1428,7 @@
 
         // Resize functions
         function setAspectRatio(w, h) {
+            playSound('click');
             const controls = getActiveControls();
             controls.widthInput.value = w;
             controls.heightInput.value = h;
@@ -1283,6 +1437,7 @@
         function applyResize() {
             if (!originalImage) return;
 
+            playSound('enhance');
             getActiveCanvas();
             const controls = getActiveControls();
 
@@ -1300,6 +1455,7 @@
 
         // Crop mode
         function toggleCropMode() {
+            playSound('click');
             getActiveCanvas();
             cropMode = !cropMode;
             if (cropMode) {
@@ -1322,36 +1478,70 @@
             canvases.forEach(cnv => {
                 if (!cnv) return;
 
-                cnv.addEventListener('mousedown', (e) => {
-                    if (!cropMode) return;
-                    const rect = cnv.getBoundingClientRect();
-                    const scaleX = cnv.width / rect.width;
-                    const scaleY = cnv.height / rect.height;
-                    cropStart = {
-                        x: (e.clientX - rect.left) * scaleX,
-                        y: (e.clientY - rect.top) * scaleY
-                    };
+                // Mouse events
+                cnv.addEventListener('mousedown', handleCropStart);
+                cnv.addEventListener('mousemove', handleCropMove);
+                cnv.addEventListener('mouseup', handleCropEnd);
+
+                // Touch events for mobile
+                cnv.addEventListener('touchstart', (e) => {
+                    e.preventDefault();
+                    const touch = e.touches[0];
+                    const mouseEvent = new MouseEvent('mousedown', {
+                        clientX: touch.clientX,
+                        clientY: touch.clientY
+                    });
+                    cnv.dispatchEvent(mouseEvent);
                 });
 
-                cnv.addEventListener('mousemove', (e) => {
-                    if (!cropMode || !cropStart) return;
-                    const rect = cnv.getBoundingClientRect();
-                    const scaleX = cnv.width / rect.width;
-                    const scaleY = cnv.height / rect.height;
-                    cropEnd = {
-                        x: (e.clientX - rect.left) * scaleX,
-                        y: (e.clientY - rect.top) * scaleY
-                    };
-                    drawCropRect();
+                cnv.addEventListener('touchmove', (e) => {
+                    e.preventDefault();
+                    const touch = e.touches[0];
+                    const mouseEvent = new MouseEvent('mousemove', {
+                        clientX: touch.clientX,
+                        clientY: touch.clientY
+                    });
+                    cnv.dispatchEvent(mouseEvent);
                 });
 
-                cnv.addEventListener('mouseup', () => {
-                    if (!cropMode || !cropStart || !cropEnd) return;
-                    applyCrop();
-                    cropStart = null;
-                    cropEnd = null;
+                cnv.addEventListener('touchend', (e) => {
+                    e.preventDefault();
+                    const mouseEvent = new MouseEvent('mouseup', {});
+                    cnv.dispatchEvent(mouseEvent);
                 });
             });
+        }
+
+        function handleCropStart(e) {
+            if (!cropMode) return;
+            const cnv = e.target;
+            const rect = cnv.getBoundingClientRect();
+            const scaleX = cnv.width / rect.width;
+            const scaleY = cnv.height / rect.height;
+            cropStart = {
+                x: (e.clientX - rect.left) * scaleX,
+                y: (e.clientY - rect.top) * scaleY
+            };
+        }
+
+        function handleCropMove(e) {
+            if (!cropMode || !cropStart) return;
+            const cnv = e.target;
+            const rect = cnv.getBoundingClientRect();
+            const scaleX = cnv.width / rect.width;
+            const scaleY = cnv.height / rect.height;
+            cropEnd = {
+                x: (e.clientX - rect.left) * scaleX,
+                y: (e.clientY - rect.top) * scaleY
+            };
+            drawCropRect();
+        }
+
+        function handleCropEnd() {
+            if (!cropMode || !cropStart || !cropEnd) return;
+            applyCrop();
+            cropStart = null;
+            cropEnd = null;
         }
 
         function drawCropRect() {
@@ -1372,6 +1562,7 @@
         }
 
         function applyCrop() {
+            playSound('enhance');
             getActiveCanvas();
             
             const x = Math.min(cropStart.x, cropEnd.x);
@@ -1399,6 +1590,7 @@
         function toggleBeforeAfter() {
             if (!originalImage || !currentImage) return;
 
+            playSound('click');
             getActiveCanvas();
 
             if (isShowingOriginal) {
@@ -1415,6 +1607,7 @@
         function resetImage() {
             if (!originalImage) return;
             
+            playSound('click');
             getActiveCanvas();
             const controls = getActiveControls();
             
@@ -1438,6 +1631,8 @@
             getActiveCanvas();
             if (!canvas) return;
 
+            playSound('download');
+
             const mimeType = format === 'png' ? 'image/png' : 'image/jpeg';
             const dataURL = canvas.toDataURL(mimeType, 0.95);
             const link = document.createElement('a');
@@ -1460,6 +1655,9 @@
 
         // Set active nav link on page load
         document.addEventListener('DOMContentLoaded', () => {
+            // Initialize sounds
+            initSounds();
+            
             // Show home page by default
             navigateTo('home');
             
@@ -1469,10 +1667,14 @@
             // Setup canvas listeners
             setupCanvasListeners();
             
-            console.log('App initialized');
+            // Add click sound to all buttons
+            document.querySelectorAll('.btn, .cta-button').forEach(btn => {
+                btn.addEventListener('click', () => playSound('click'));
+            });
+            
+            console.log('App initialized with sound effects');
         });
     </script>
-        <script src="https://pl28317922.effectivegatecpm.com/83/b8/68/83b8684222f10b1b5317479d103d00d1.js"></script>
+    <script src="https://pl28317922.effectivegatecpm.com/83/b8/68/83b8684222f10b1b5317479d103d00d1.js"></script>
 </body>
-
 </html>
